@@ -71,4 +71,6 @@ The code is organized as follows:
  ```
 
 ### Web Url
-   - http://localhost:5000/kroky?username=YOUR_USERNAME&password=YOUR_PASSWORD
+```bash
+http://localhost:5000/kroky?username=YOUR_USERNAME&password=YOUR_PASSWORD
+```
