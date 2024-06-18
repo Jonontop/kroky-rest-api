@@ -3,8 +3,8 @@ import time
 # import mysql.connector
 import bs4
 
-username = "pe-jon"
-password = "q460jk"
+username = ""
+password = ""
 
 day = ["pon", "tor", "sre", "cet", "pet", "sob"]
 
@@ -12,10 +12,10 @@ main_url = "https://www.kroky.si/2016/?mod=register&action=order&pos=-3"
 login_url = "https://www.kroky.si/2016/?mod=register&action=login"
 
 """mydb = mysql.connector.connect(
-    host="berry.sillydev.co.uk:3306",
-    user="u5437_IXBnDn10Ku",
-    password="PW=CmQUdHQf.A=1LSncfqA.d",
-    database="sillydev_co_uk_db5437"
+    host="",
+    user="",
+    password="",
+    database=""
 )
 
 mycursor = mydb.cursor()"""
