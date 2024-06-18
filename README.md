@@ -55,6 +55,8 @@ The code is organized as follows:
 - **Login Failure:** If the login fails, it returns an error message indicating the status code.
 - **Main Execution:** If the script is run directly (`if __name__ == '__main__'`), it runs the Flask app in debug mode (set `debug=True` for development).
 
-## Usage
+## Usage Tutorial
 
-1. Save the code as `kroky_scraper.py
+**1. Set Up the Environment:**
+
+   - Install the required libraries: `pip install Flask requests beautifulsoup4
