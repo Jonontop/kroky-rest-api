@@ -1,28 +1,24 @@
+from flask import Flask, jsonify, request
 import requests
-import time
-# import mysql.connector
 import bs4
 
-username = ""
-password = ""
-
-day = ["pon", "tor", "sre", "cet", "pet", "sob"]
-
-main_url = "https://www.kroky.si/2016/?mod=register&action=order&pos=-3"
-login_url = "https://www.kroky.si/2016/?mod=register&action=login"
-
-"""mydb = mysql.connector.connect(
-    host="",
-    user="",
-    password="",
-    database=""
-)
-
-mycursor = mydb.cursor()"""
+app = Flask(__name__)
 
 
-def kroky_command(username, password):
-    menu = {}
+@app.route('/kroky', methods=['GET'])
+def kroky_command():
+    # Get username and password from query parameters
+    username = request.args.get('username')
+    password = request.args.get('password')
+
+    if not username or not password:
+        return "Please provide both username and password as query parameters"
+
+    day = ["pon", "tor", "sre", "cet", "pet", "sob"]
+    main_url = "https://www.kroky.si/2016/?mod=register&action=order&pos=-3"
+    login_url = "https://www.kroky.si/2016/?mod=register&action=login"
+    menu = []
+
     with requests.Session() as session:
         # Post the login data
         try:
@@ -38,27 +34,23 @@ def kroky_command(username, password):
 
             if main_response.ok:
                 soup = bs4.BeautifulSoup(main_response.text, "html.parser")
-                # print(soup.prettify())
                 for i in day:
-                    menu[i] = {}
+                    day_menu = {}
+                    day_menu[i] = []
                     for k in range(1, 12):
                         for j in soup.find_all("td", class_=f"st_menija_{k}_{i}"):
-                            menu[i][f"{k}. meni"] = {
-                                "ime": j.find("span", class_="lepo_ime").text,
+                            day_menu[i].append({
+                                f"{k}. menu": j.find("span", class_="lepo_ime").text,
                                 "selected": True if j.find("input").has_attr("checked") else False
-                            }
-                print(menu)
+                            })
+                    menu.append(day_menu)
+
+                print(menu)  # Print the menu list
+                return jsonify(menu)  # Return the menu as JSON
             else:
                 return f"Failed to access main URL: {main_response.status_code}"
         else:
             return f"Login failed: {response.status_code}"
 
-
-"""def setup(bot):
-    @bot.slash_command(name="kroky", description="Get Kroky data")
-    async def kroky(ctx, username: str, password: str):
-        await ctx.respond(kroky_command(username, password))
-"""
-
-print(kroky_command(username, password))
-
+if __name__ == '__main__':
+    app.run(debug=False)
