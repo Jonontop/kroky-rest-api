@@ -60,3 +60,15 @@ The code is organized as follows:
 **1. Set Up the Environment:**
 
    - Install the required libraries: `pip install Flask requests beautifulsoup4
+
+   - Run the code in python executer
+
+   - Get data from api
+
+### Curl
+```bash
+ curl -X GET http://localhost:5000/kroky?username=YOUR_USERNAME&password=YOUR_PASSWORD
+ ```
+
+### Web Url
+   - http://localhost:5000/kroky?username=YOUR_USERNAME&password=YOUR_PASSWORD
