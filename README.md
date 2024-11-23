@@ -80,7 +80,7 @@ http://localhost:5000/kroky?username=YOUR_USERNAME&password=YOUR_PASSWORD
 ### Select_meal
 #### Curl
 ```bash
-curl -X POST http://127.0.0.1:5002/select_meal -H "Content-Type: application/json" -d '{"username": "pe-jon", "password": "q460jk"}'
+curl -X POST http://127.0.0.1:5002/select_meal -H "Content-Type: application/json" -d '{"username": "YOUR_USERNAME", "password": "YOUR_PASSWORD"}'
 ```
 #### Web Url
 ```bash
