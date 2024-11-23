@@ -65,12 +65,24 @@ The code is organized as follows:
 
    - Get data from api
 
-### Curl
+
+### Kroky - json with all meals in that week with bool for selected meal
+#### Curl
 ```bash
  curl -X GET http://localhost:5000/kroky?username=YOUR_USERNAME&password=YOUR_PASSWORD
  ```
 
-### Web Url
+#### Web Url
 ```bash
 http://localhost:5000/kroky?username=YOUR_USERNAME&password=YOUR_PASSWORD
+```
+
+### Select_meal
+#### Curl
+```bash
+curl -X POST http://127.0.0.1:5002/select_meal -H "Content-Type: application/json" -d '{"username": "pe-jon", "password": "q460jk"}'
+```
+#### Web Url
+```bash
+# still in development
 ```
