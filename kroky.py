@@ -57,10 +57,9 @@ def kroky_command():
 
 @app.route('/select_meal', methods=['POST'])
 def select_meal():
-    #username = request.json.get('username')
-    #password = request.json.get('password')
-    username = "pe-jon"
-    password = "q460jk"
+    username = request.json.get('username')
+    password = request.json.get('password')
+    date = request.json.get("date")
 
     if not username or not password:
         print("Test")
@@ -79,7 +78,7 @@ def select_meal():
             
         selection_data = {
             "c": 34764,
-            "date": "2024-12-02",
+            "date": date, #2024-12-02
         }
             
         # Send the POST request to select the meal
