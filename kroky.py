@@ -11,19 +11,22 @@ def kroky_command():
     # Get username and password from query parameters
     username = request.args.get('username')
     password = request.args.get('password')
+    pos = request.args.get('pos')
+
+    if not pos:
+        pos = 0
 
     if not username or not password:
         return "Please provide both username and password as query parameters"
 
     day = ["pon", "tor", "sre", "cet", "pet", "sob"]
-    main_url = "https://www.kroky.si/2016/?mod=register&action=order&pos=-3"
-    login_url = "https://www.kroky.si/2016/?mod=register&action=login"
+    main_url = "https://www.kroky.si/2016/"
     menu = []
 
     with requests.Session() as session:
         # Post the login data
         try:
-            response = session.post(login_url, data={"username": username, "password": password})
+            response = session.post(main_url, data={"username": username, "password": password}, params={"mod": "register", "action": "login"})
         except requests.exceptions.RequestException as e:
             return f"An error occurred: {e}"
 
@@ -31,7 +34,7 @@ def kroky_command():
             print("Login successful")
 
             # Access the main URL using the same session
-            main_response = session.get(main_url)
+            main_response = session.get(main_url, params={"mod": "register", "action": "order", "pos": pos})
 
             if main_response.ok:
                 soup = bs4.BeautifulSoup(main_response.text, "html.parser")
@@ -55,7 +58,7 @@ def kroky_command():
             return f"Login failed: {response.status_code}"
         
 
-@app.route('/select_meal', methods=['POST'])
+@app.route('/select_meal', methods=['GET'])
 def select_meal():
     username = request.json.get('username')
     password = request.json.get('password')
@@ -65,24 +68,23 @@ def select_meal():
         print("Test")
         return "Please provide username, password, day, and menu_number", 400
 
-    login_url = "https://www.kroky.si/2016/?mod=register&action=login"
-    selection_url = "https://www.kroky.si/2016/?mod=register&action=user2date2menu"
+    selection_url = "https://www.kroky.si/2016/"
     success_message = "Meal selected successfully!"
     
     with requests.Session() as session:
         # Log in first
         try:
-            session.post(login_url, data={"username": username, "password": password})
+            session.post(selection_url, data={"username": username, "password": password}, params={"mod": "register", "action": "login"})
         except requests.exceptions.RequestException as e:
             return f"An error occurred: {e}"
             
         selection_data = {
-            "c": 34764,
-            "date": date, #2024-12-02
+            "c": int(34764),
+            "date": str(date), #2024-12-02
         }
             
         # Send the POST request to select the meal
-        selection_response = session.post(selection_url, data=json.dumps(selection_data), headers={"Content-Type": "application/json"})
+        selection_response = session.post(selection_url, data=selection_data, headers={'Content-Type': 'application/x-www-form-urlencoded'}, params={"mod": "register", "action": "user2date2menu"})
         if not selection_response.ok:
             return f"Failed to select meal with status code: {selection_response.status_code}", 500
 
